@@ -14,7 +14,7 @@ git_users = {
 "ryan fox" => "austra"
 }
 access_token = ENV['ACCESS_TOKEN']
-octokit      = Octokit::Client.new(access_token: ACCESS_TOKEN)
+octokit      = Octokit::Client.new(access_token: access_token)
 user = OCTOKIT.user
 user.login
 octokit.auto_paginate = true
