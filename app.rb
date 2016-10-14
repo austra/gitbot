@@ -15,7 +15,7 @@ git_users = {
 }
 access_token = ENV['ACCESS_TOKEN']
 octokit      = Octokit::Client.new(access_token: access_token)
-user = OCTOKIT.user
+user = octokit.user
 user.login
 octokit.auto_paginate = true
   #return if params[:token] != ENV['SLACK_TOKEN']
