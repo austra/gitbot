@@ -9,6 +9,8 @@ Dotenv.load
 
 ACCESS_TOKEN = ENV['ACCESS_TOKEN']
 OCTOKIT      = Octokit::Client.new(access_token: ACCESS_TOKEN)
+USER = OCTOKIT.user
+USER.login
 OCTOKIT.auto_paginate = true
 
 GIT_USERS = {
