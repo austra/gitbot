@@ -32,6 +32,7 @@ post '/git' do
       str = pulls.map{ |pr| pr[:url] }.join("\n")
       message += "\n#{str}"
     end
+    send_slack message
   end
 end
 
