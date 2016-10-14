@@ -20,12 +20,15 @@ GIT_USERS = {
 post '/git' do
   #return if params[:token] != ENV['SLACK_TOKEN']
   slack_user = params[:user_name].downcase
+  puts "#{slack_user}"
+  puts params[:user_name].downcase
   git_user = GIT_USERS[slack_user]
   action = params[:text].gsub(params[:trigger_word], '').strip
   repo_url = "iCentris/pyr"
 
   case action
   when 'pulls'
+    puts "#{git_user}"
     search_results = OCTOKIT.search_issues("author:#{git_user} type:pr state:open repo:#{repo_url}")
     pulls = search_results[:items]
     #all_pulls = OCTOKIT.pulls repo_url
