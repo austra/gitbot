@@ -24,7 +24,7 @@ post '/git' do
 
   case action
   when 'pulls'
-    search_results = OCTOKIT.search_issues("author:#{git_user} type:pr state:open")
+    search_results = OCTOKIT.search_issues("author:#{git_user} type:pr state:open repo:#{repo_url}")
     pulls = search_results[:items]
     #all_pulls = OCTOKIT.pulls repo_url
     message = "#{pulls.count} Outstanding Pull Requests"
