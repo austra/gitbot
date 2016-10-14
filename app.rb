@@ -28,7 +28,7 @@ post '/git' do
     pulls = search_results[:items]
     #all_pulls = OCTOKIT.pulls repo_url
     message = "#{pulls.count} Outstanding Pull Requests"
-    if message.count > 0
+    if pulls.count > 0
       str = pulls.map{ |pr| pr[:url] }.join("\n")
       message += "\n#{str}"
     end
