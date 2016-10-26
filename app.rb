@@ -42,7 +42,7 @@ post '/git' do
     pulls = search_results[:items]
     message = "#{pulls.count} Outstanding Avon Code Reviewed Pull Requests"
     if pulls.count > 0
-      str = pulls.map{ |pr| "pr[:title] pr[:url]" }.join("\n")
+      str = pulls.map{ |pr| "#{pr[:title]} #{pr[:url]}" }.join("\n")
       message += "\n#{str}"
     end
   end
