@@ -22,7 +22,7 @@ post '/git' do
   slack_user = params[:user_name].downcase
   puts "#{slack_user}"
   puts params[:user_name].downcase
-  git_user = GIT_USERS[slack_user]
+  git_user = "austra"
   action = params[:text].gsub(params[:trigger_word], '').strip
   repo_url = "iCentris/pyr"
 
