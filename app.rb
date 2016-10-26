@@ -7,29 +7,29 @@ require 'pry'
 
 Dotenv.load
 
+ACCESS_TOKEN = ENV['ACCESS_TOKEN']
+OCTOKIT      = Octokit::Client.new(access_token: ACCESS_TOKEN)
+USER = OCTOKIT.user
+USER.login
+OCTOKIT.auto_paginate = true
 
-
-post '/git' do
-git_users = {
+GIT_USERS = {
 "ryan fox" => "austra"
 }
-access_token = ENV['ACCESS_TOKEN']
-octokit      = Octokit::Client.new(access_token: access_token)
-user = octokit.user
-user.login
-octokit.auto_paginate = true
+
+post '/git' do
   #return if params[:token] != ENV['SLACK_TOKEN']
   slack_user = params[:user_name].downcase
   puts "#{slack_user}"
   puts params[:user_name].downcase
-  git_user = git_users[slack_user]
+  git_user = GIT_USERS[slack_user]
   action = params[:text].gsub(params[:trigger_word], '').strip
   repo_url = "iCentris/pyr"
 
   case action
   when 'pulls'
     puts "#{git_user}"
-    search_results = octokit.search_issues("author:#{git_user} type:pr state:open repo:#{repo_url}")
+    search_results = OCTOKIT.search_issues("author:#{git_user} type:pr state:open repo:#{repo_url}")
     pulls = search_results[:items]
     #all_pulls = OCTOKIT.pulls repo_url
     message = "#{pulls.count} Outstanding Pull Requests"
@@ -37,8 +37,15 @@ octokit.auto_paginate = true
       str = pulls.map{ |pr| pr[:url] }.join("\n")
       message += "\n#{str}"
     end
-    send_slack message
+  when 'avon'
+    search_results = OCTOKIT.search_issues("type:pr state:open repo:#{repo_url} label:\"Code Reviewed\"")
+    pulls = search_results[:items]
+    if pulls.count > 0
+      str = pulls.map{ |pr| "pr[:title] pr[:url]" }.join("\n")
+      message += "\n#{str}"
+    end
   end
+  send_slack message
 end
 
 def send_slack message
