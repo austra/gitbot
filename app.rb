@@ -45,6 +45,14 @@ post '/git' do
       str = pulls.map{ |pr| "#{pr[:title]} #{pr[:url]}" }.join("\n")
       message += "\n#{str}"
     end
+  when 'release'
+    search_results = OCTOKIT.search_issues("type:pr base:1.10-AVON state:closed repo:#{repo_url} closed:>2016-10-15")
+    pulls = search_results[:items]
+    message = "#{pulls.count} release notes since"
+    if pulls.count > 0
+      str = pulls.map{ |pr| "#{pr[:title]} #{pr[:url]}" }.join("\n")
+      message += "\n#{str}"
+    end
   end
   send_slack message
 end
