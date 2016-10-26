@@ -38,6 +38,7 @@ post '/git' do
       message += "\n#{str}"
     end
   when 'avon'
+    message = "#{pulls.count} Outstanding Avon Code Reviewed Pull Requests"
     search_results = OCTOKIT.search_issues("type:pr state:open repo:#{repo_url} label:\"Code Reviewed\"")
     pulls = search_results[:items]
     if pulls.count > 0
