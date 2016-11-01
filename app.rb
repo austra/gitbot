@@ -18,6 +18,9 @@ GIT_USERS = {
 }
 
 post '/git' do
+  puts "##################################"
+  puts params
+  puts "##################################"
   #return if params[:token] != ENV['SLACK_TOKEN']
   slack_user = params[:user_name].downcase
   puts "#{slack_user}"
