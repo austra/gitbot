@@ -46,6 +46,9 @@ post '/git' do
       message += "\n#{str}"
     end
   when 'release'
+    puts "##################################"
+    puts params
+    puts "##################################"
     search_results = OCTOKIT.search_issues("type:pr base:1.10-AVON state:closed repo:#{repo_url} closed:>2016-10-15")
     pulls = search_results[:items]
     message = "#{pulls.count} release notes since"
