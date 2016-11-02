@@ -89,10 +89,10 @@ post '/git' do
 
   case action
   when 'help'
-    message =  "pulls - Shows your open pull requests in a given repo.  Defaults to pyr, optionally add a repo using repo=pyr-avon\n"
-    message += "reviewed - Shows open and code reviewed pull requests in a given repo and on a given base branch.  Must supply options in the form, base=1.10 repo=pyr\n"
-    message += "release - Generates release notes based on pull requests merged since last tag was taken on supplied base. Must supply options in the form, base=1.10 repo=pyr\n"
-    message
+    message =  "pulls repo=pyr-idlife - Shows your open pull requests in a given repo.  Defaults to pyr, optionally add a repo using repo=pyr-avon\n"
+    message += "reviewed base=1.10-VTUP repo=pyr - Shows open and code reviewed pull requests in a given repo and on a given base branch.  Must supply options in the form, base=1.10 repo=pyr\n"
+    message += "release base=1.10-AVON repo=pyr - Generates release notes based on pull requests merged since last tag was taken on supplied base. Must supply options in the form, base=1.10-AVON repo=pyr\n"
+    message += "Repo defaults to pyr if not specified."
   when 'pulls'
     # Users open pull requests in a given repo
     search_results = OCTOKIT.search_issues("author:#{git_user} type:pr state:open repo:#{repo_url}")
