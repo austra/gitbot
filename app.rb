@@ -96,20 +96,20 @@ post '/git' do
   when 'pulls'
     # Users open pull requests in a given repo
     search_results = OCTOKIT.search_issues("author:#{git_user} type:pr state:open repo:#{repo_url}")
-    pulls = search_results[:items]
+    pulls = search_results.items
     message = "Repo: #{repo} - #{pulls.count} Outstanding Open Pull Requests"
     if pulls.count > 0
-      str = pulls.map{ |pr| pr[:url] }.join("\n")
+      str = pulls.map{ |pr| pr.html_url }.join("\n")
       message += "\n#{str}"
     end
   when 'reviewed'
     # Outstanding open pull requests given base/repo, ie: 1.10-AVON / PYR
     if options.key?(:base)
       search_results = OCTOKIT.search_issues("type:pr base:#{options[:base]} state:open repo:#{repo_url} label:\"Code Reviewed\"")
-      pulls = search_results[:items]
+      pulls = search_results.items
       message = "Base: #{options[:base]} - Repo: #{repo} - #{pulls.count} Outstanding Open and Code Reviewed Pull Requests"
       if pulls.count > 0
-        str = pulls.map{ |pr| "#{pr[:title]} #{pr[:url]}" }.join("\n")
+        str = pulls.map{ |pr| "#{pr.title} #{pr.html_url}" }.join("\n")
         message += "\n#{str}"
       end
     else
@@ -122,10 +122,10 @@ post '/git' do
       last_release = releases.detect{|r| r.target_commitish == "#{options[:base]}"}
       date = last_release.created_at.strftime("%Y-%m-%d")
       search_results = OCTOKIT.search_issues("type:pr base:#{options[:base]} state:closed repo:#{repo_url} merged:>#{date}")
-      pulls = search_results[:items]
+      pulls = search_results.items
       message = "Base: #{options[:base]} - Repo: #{repo} - #{pulls.count} Release Notes Since Last Release (#{last_release.name} - #{last_release.tag_name} - #{date})"
       if pulls.count > 0
-        str = pulls.map{ |pr| "#{pr[:title]} #{pr[:url]}" }.join("\n")
+        str = pulls.map{ |pr| "#{pr.title} #{pr.html_url}" }.join("\n")
         message += "\n#{str}"
       end
     else
