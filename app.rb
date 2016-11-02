@@ -109,7 +109,7 @@ post '/git' do
       pulls = search_results.items
       message = "Base: #{options[:base]} - Repo: #{repo} - #{pulls.count} Outstanding Open and Code Reviewed Pull Requests"
       if pulls.count > 0
-        str = pulls.map{ |pr| "#{pr.title} #{pr.html_url}" }.join("\n")
+        str = pulls.map{ |pr| "#{pr.title} #{pr.html_url} - #{pr.updated_at}" }.join("\n")
         message += "\n#{str}"
       end
     else
