@@ -81,6 +81,9 @@ post '/git' do
   rescue
     options = {}
   end
+  if options.key?(:repo)
+    repo = options[:repo]
+  end
   repo ||= "pyr"
   repo_url = "iCentris/#{repo}"
 
@@ -94,17 +97,17 @@ post '/git' do
     # Users open pull requests in a given repo
     search_results = OCTOKIT.search_issues("author:#{git_user} type:pr state:open repo:#{repo_url}")
     pulls = search_results[:items]
-    message = "#{pulls.count} Outstanding Open Pull Requests In #{repo}"
+    message = "Repo: #{repo} - #{pulls.count} Outstanding Open Pull Requests"
     if pulls.count > 0
       str = pulls.map{ |pr| pr[:url] }.join("\n")
       message += "\n#{str}"
     end
   when 'reviewed'
     # Outstanding open pull requests given base/repo, ie: 1.10-AVON / PYR
-    if options.key?(:base) && options.key?(:repo)
-      search_results = OCTOKIT.search_issues("type:pr base:#{base} state:open repo:#{repo_url} label:\"Code Reviewed\"")
+    if options.key?(:base)
+      search_results = OCTOKIT.search_issues("type:pr base:#{options[:base]} state:open repo:#{repo_url} label:\"Code Reviewed\"")
       pulls = search_results[:items]
-      message = "#{pulls.count} #{repo} Outstanding Open and Code Reviewed Pull Requests"
+      message = "Base: #{options[:base]} - Repo: #{repo} - #{pulls.count} Outstanding Open and Code Reviewed Pull Requests"
       if pulls.count > 0
         str = pulls.map{ |pr| "#{pr[:title]} #{pr[:url]}" }.join("\n")
         message += "\n#{str}"
@@ -114,13 +117,13 @@ post '/git' do
     end
   when 'release'
     # Merged pull requests in a given base/repo since last release
-    if options.key?(:base) && options.key?(:repo)
+    if options.key?(:base)
       releases = OCTOKIT.list_releases(repo_url)
-      last_release = releases.detect{|r| r.target_commitish == "#{base}"}
+      last_release = releases.detect{|r| r.target_commitish == "#{options[:base]}"}
       date = last_release.created_at.strftime("%Y-%m-%d")
-      search_results = OCTOKIT.search_issues("type:pr base:#{base} state:closed repo:#{repo_url} merged:>#{date}")
+      search_results = OCTOKIT.search_issues("type:pr base:#{options[:base]} state:closed repo:#{repo_url} merged:>#{date}")
       pulls = search_results[:items]
-      message = "#{pulls.count} Release Notes Since Last Release (#{r1.name} - #{r1.tag_name} - #{date})"
+      message = "Base: #{options[:base]} - Repo: #{repo} - #{pulls.count} Release Notes Since Last Release (#{r1.name} - #{r1.tag_name} - #{date})"
       if pulls.count > 0
         str = pulls.map{ |pr| "#{pr[:title]} #{pr[:url]}" }.join("\n")
         message += "\n#{str}"
