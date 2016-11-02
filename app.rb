@@ -123,7 +123,7 @@ post '/git' do
       date = last_release.created_at.strftime("%Y-%m-%d")
       search_results = OCTOKIT.search_issues("type:pr base:#{options[:base]} state:closed repo:#{repo_url} merged:>#{date}")
       pulls = search_results[:items]
-      message = "Base: #{options[:base]} - Repo: #{repo} - #{pulls.count} Release Notes Since Last Release (#{r1.name} - #{r1.tag_name} - #{date})"
+      message = "Base: #{options[:base]} - Repo: #{repo} - #{pulls.count} Release Notes Since Last Release (#{last_release.name} - #{last_release.tag_name} - #{date})"
       if pulls.count > 0
         str = pulls.map{ |pr| "#{pr[:title]} #{pr[:url]}" }.join("\n")
         message += "\n#{str}"
