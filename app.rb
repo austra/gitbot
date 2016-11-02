@@ -86,9 +86,9 @@ post '/git' do
 
   case action
   when 'help'
-    message =  "gitbot pulls - Shows your open pull requests in a given repo.  Defaults to pyr, optionally add a repo using repo=pyr-avon\n"
-    message += "gitbot reviewed - Shows open and code reviewed pull requests in a given repo and on a given base branch.  Must supply options in the form, base=1.10 repo=pyr\n"
-    message += "gitbot release - Generates release notes based on pull requests merged since last tag was taken on supplied base. Must supply options in the form, base=1.10 repo=pyr\n"
+    message =  "pulls - Shows your open pull requests in a given repo.  Defaults to pyr, optionally add a repo using repo=pyr-avon\n"
+    message += "reviewed - Shows open and code reviewed pull requests in a given repo and on a given base branch.  Must supply options in the form, base=1.10 repo=pyr\n"
+    message += "release - Generates release notes based on pull requests merged since last tag was taken on supplied base. Must supply options in the form, base=1.10 repo=pyr\n"
     message
   when 'pulls'
     # Users open pull requests in a given repo
