@@ -14,7 +14,7 @@ OCTOKIT.auto_paginate = true
 
 #Translate slack username to github username
 GIT_USERS = {
-  "ryan.fox" => "austra"
+  "ryan.fox" => "austra",
   "aaron.swensen" => "aarow75",
   "chris.iriondo" => "Astrofin",
   "ryan.riley" => "block2150",
