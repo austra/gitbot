@@ -206,7 +206,7 @@ def master_pulls
   
   #[pyr_missing_pulls, pyr_avon_missing_pulls, pyr_monat_missing_pulls].each do |pulls|
   [pyr_missing_pulls].each do |pulls|
-    formatted_pulls << pulls.map{|pr| {title: pr[:title], repo: pr[:repository_url], url: pr[:url], author: "@#{pr[:user][:login]}"}}
+    formatted_pulls << pulls.map{|pr| {title: pr[:title], repo: pr[:repository_url], url: pr[:html_url], author: "@#{GIT_USERS.key(pr[:user][:login]) || pr[:user][:login]}"}}
   end
 
   formatted_pulls.flatten!(1)
