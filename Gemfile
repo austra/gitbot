@@ -6,3 +6,4 @@ gem "octokit", "~> 4.0"
 gem 'dotenv'
 gem 'pry'
 gem 'json'
+gem 'jira-ruby'
